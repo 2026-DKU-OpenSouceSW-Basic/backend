@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: backend
+  mvc:
+    async:
+      request-timeout: 180000
+
+server:
+  port: 8080
+
+python:
+  server:
+    url: "http://localhost:8000"
+
+logging:
+  level:
+    com.opensource.backend: DEBUG
