@@ -1,16 +1,33 @@
 spring:
   application:
     name: backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/viral}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:dnjdnlr123}
+  jpa:
+    hibernate:
+      ddl-auto: update          # 테이블 자동 생성/갱신(운영 전환 시 validate 권장)
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   mvc:
     async:
-      request-timeout: 180000
+      # 분석 스트림은 SseEmitter(0L)로 무제한 처리하므로 전역 타임아웃도 끈다(-1 = 무제한).
+      # (기존 180초 값은 SseEmitter가 덮어써서 무력했지만, 혼동 방지를 위해 정리)
+      request-timeout: -1
 
 server:
   port: 8080
 
 python:
   server:
-    url: "http://localhost:8000"
+    url: "https://deferral-confirm-karate.ngrok-free.dev"
+
+viral:
+  cache:
+    ttl-hours: 6              # 검색어 캐시 유효시간(시간). 만료 후 재분석.
 
 logging:
   level:
